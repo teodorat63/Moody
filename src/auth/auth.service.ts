@@ -14,7 +14,6 @@ export class AuthService {
     private config: ConfigService,
   ) {}
   async signup(dto: AuthDto) {
-    //instalirati argon
     const hash = await argon.hash(dto.password);
 
     try {
