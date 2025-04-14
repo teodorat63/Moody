@@ -9,3 +9,15 @@ export class AuthDto {
   @IsNotEmpty()
   password: string;
 }
+
+export class CreateUserDto {
+  name: string;
+
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  password: string;
+}
