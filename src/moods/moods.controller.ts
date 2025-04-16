@@ -26,10 +26,10 @@ export class MoodsController {
     return this.moodsService.findAll();
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.moodsService.findOne(+id);
-  // }
+  @Get(':moodId/songs')
+  findSongs(@Param('moodId') moodId: number) {
+    return this.moodsService.findSongs(+moodId);
+  }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateMoodDto: UpdateMoodDto) {

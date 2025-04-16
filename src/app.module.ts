@@ -7,6 +7,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 import { JwtStrategy } from './auth/strategy';
 import { MoodsModule } from './moods/moods.module';
+import { SongsModule } from './songs/songs.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { MoodsModule } from './moods/moods.module';
     UserModule,
     PrismaModule,
     MoodsModule,
+    SongsModule,
   ],
   controllers: [AppController],
   providers: [AppService, JwtStrategy],

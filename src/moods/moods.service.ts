@@ -17,9 +17,17 @@ export class MoodsService {
     return await this.prisma.mood.findMany();
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} mood`;
-  // }
+  async findSongs(moodId: number) {
+    return await this.prisma.song.findMany({
+      where: {
+        moods: {
+          some: {
+            id: moodId,
+          },
+        },
+      },
+    });
+  }
 
   // update(id: number, updateMoodDto: UpdateMoodDto) {
   //   return `This action updates a #${id} mood`;
