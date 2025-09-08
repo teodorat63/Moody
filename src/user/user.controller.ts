@@ -8,13 +8,14 @@ import {
   Param,
   Delete,
   UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtGuard } from 'src/auth/guard';
 import { GetUser } from 'src/auth/decorator';
 import { Mood, User } from '@prisma/client';
+import { UpdateUserDto } from './dto';
+import { ApiBody } from '@nestjs/swagger';
 
 @Controller('users')
 export class UserController {
@@ -26,28 +27,33 @@ export class UserController {
     return user;
   }
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
-  }
-
+  // GET /users
   @Get()
   findAll() {
     return this.userService.findAll();
   }
 
+  // GET /users/:id
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(+id);
   }
 
-  @Patch(':id/mood')
-  updateUserMood(@Param('id') userId: number, @Body('moodId') moodId: number) {
-    return this.userService.updateUserMood(+userId, +moodId);
+  // PATCH /users/:id
+  @Patch(':id')
+  @ApiBody({ type: UpdateUserDto })
+  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateUserDto) {
+    return this.userService.update(id, dto);
   }
 
+  // DELETE /users/:id
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.userService.remove(+id);
+  }
+
+  @Patch(':id/mood')
+  updateUserMood(@Param('id') userId: number, @Body('moodId') moodId: number) {
+    return this.userService.updateUserMood(+userId, +moodId);
   }
 }

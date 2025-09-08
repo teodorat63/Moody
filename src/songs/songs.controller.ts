@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Controller,
   Get,
@@ -7,19 +6,19 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { SongsService } from './songs.service';
-import { CreateSongDto } from './dto/create-song.dto';
-import { UpdateSongDto } from './dto/update-song.dto';
+import { CreateSongDto, UpdateSongDto } from './dto';
 
 @Controller('songs')
 export class SongsController {
   constructor(private readonly songsService: SongsService) {}
 
-  // @Post()
-  // create(@Body() createSongDto: CreateSongDto) {
-  //   return this.songsService.create(createSongDto);
-  // }
+  @Post()
+  create(@Body() dto: CreateSongDto) {
+    return this.songsService.create(dto);
+  }
 
   @Get()
   findAll() {
@@ -27,17 +26,17 @@ export class SongsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.songsService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.songsService.findOne(id);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateSongDto: UpdateSongDto) {
-  //   return this.songsService.update(+id, updateSongDto);
-  // }
+  @Patch(':id')
+  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateSongDto) {
+    return this.songsService.update(id, dto);
+  }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.songsService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.songsService.remove(id);
   }
 }
