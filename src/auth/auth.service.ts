@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { AuthDto, CreateUserDto } from './dto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
@@ -36,21 +40,20 @@ export class AuthService {
     }
   }
   async signin(dto: AuthDto) {
-    //find user by email
     const user = await this.prisma.user.findUnique({
       where: {
         email: dto.email,
       },
     });
-    //if user doesnt exist throw exceptions
-    if (!user) throw new ForbiddenException('User doesnt exist');
-    //compare passwords
+
+    if (!user) throw new UnauthorizedException('User doesnt exist');
+
     const pwMatches = await argon.verify(user.password, dto.password);
-    //if passport incorect tthrow exception
+
     if (!pwMatches) {
-      throw new ForbiddenException('Wrong credentials');
+      throw new UnauthorizedException('Wrong credentials');
     }
-    //send back user
+
     return this.signToken(user.id, user.email);
   }
 
