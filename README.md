@@ -1,9 +1,11 @@
 # Moody Backend 🧠💬
 
-This is the backend for **Moody**, an app that generates personalized playlists based on your current mood.  Built with **NestJS**, **PostgreSQL**, and **Prisma ORM**, it features robust authentication with **JWT**, organized modular architecture, and a fully dockerized dev environment.
+This is the backend for **Moody**, an app that generates personalized playlists based on your current mood. Built with **NestJS**, **PostgreSQL**, and **Prisma ORM**, it features robust authentication with **JWT**, organized modular architecture, and a fully dockerized dev environment.
+
 > 🚀 This backend is intended to be used **together with the [Moody Frontend](https://github.com/teodorat63/moody-f)**, which provides the user-facing experience.
-> 
+
 ---
+
 ## 🧠 What It Does
 
 - 🎧 **Generates playlists** tailored to how you're feeling
@@ -13,6 +15,7 @@ This is the backend for **Moody**, an app that generates personalized playlists 
 - 🐳 Fully dockerized environment
 
 ---
+
 ## 🏗️ Tech Stack
 
 - **[NestJS](https://nestjs.com/)** – Progressive Node.js framework
@@ -35,4 +38,3 @@ This is the backend for **Moody**, an app that generates personalized playlists 
 - Dockerized **PostgreSQL** database
 - Auto-run **migrations** on container start
 - Clean and extendable codebase
-

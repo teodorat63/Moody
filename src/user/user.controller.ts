@@ -15,12 +15,14 @@ import { JwtGuard } from 'src/auth/guard';
 import { GetUser } from 'src/auth/decorator';
 import { Mood, User } from '@prisma/client';
 import { UpdateUserDto } from './dto';
-import { ApiBody } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  //GET /users/me
+  @ApiBearerAuth('bearer')
   @UseGuards(JwtGuard)
   @Get('me')
   getMe(@GetUser() user: User) {

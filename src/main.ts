@@ -11,7 +11,6 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.enableCors();
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
-
   const config = new DocumentBuilder()
     .setTitle('Moody API')
     .setVersion('1.0')
