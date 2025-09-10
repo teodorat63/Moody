@@ -9,6 +9,7 @@ import {
   Delete,
   UseGuards,
   ParseIntPipe,
+  HttpException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { JwtGuard } from 'src/auth/guard';
@@ -17,13 +18,13 @@ import { Mood, User } from '@prisma/client';
 import { UpdateUserDto } from './dto';
 import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 
+@ApiBearerAuth('bearer')
+@UseGuards(JwtGuard)
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   //GET /users/me
-  @ApiBearerAuth('bearer')
-  @UseGuards(JwtGuard)
   @Get('me')
   getMe(@GetUser() user: User) {
     return user;
@@ -54,8 +55,22 @@ export class UserController {
     return this.userService.remove(+id);
   }
 
-  @Patch(':id/mood')
-  updateUserMood(@Param('id') userId: number, @Body('moodId') moodId: number) {
-    return this.userService.updateUserMood(+userId, +moodId);
+  @Patch(':userId/mood/:moodId')
+  async updateUserMood(
+    @Param('userId') userId: string,
+    @Param('moodId') moodId: string,
+  ) {
+    const updated = await this.userService.updateUserMood(+userId, +moodId);
+
+    if (updated) {
+      return { message: 'Mood successfully updated' };
+    } else {
+      return { message: 'Failed to update mood' };
+    }
+  }
+
+  @Get(':moodId/users')
+  getUsersByMood(@Param('moodId', ParseIntPipe) moodId: number) {
+    return this.userService.getUsersByMood(moodId);
   }
 }

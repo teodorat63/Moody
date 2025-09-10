@@ -91,4 +91,20 @@ export class UserService {
       },
     });
   }
+
+  async getUsersByMood(moodId: number) {
+    return this.prisma.user.findMany({
+      where: {
+        moods: {
+          some: { id: moodId },
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        createdAt: true,
+      },
+    });
+  }
 }
